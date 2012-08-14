@@ -92,15 +92,28 @@ var twig = (function twig(){
 					fileInput = my.siblings('input[type="file"]');
 				fileInput.show()
 					.css({position: 'absolute', top: pos.top + 25 + 'px', left: pos.left});
+			});	
+			
+			//Smiley insert handler
+			self.placeholder.on('click', '.command.smiley_control', function(){
+				var my = $(this);
+				my.siblings('.list').show();				
 			});
 			
-			self.placeholder.find('input.image_control.file').change(self.handleImageInsert);
+			self.placeholder.on('click', '.smiley', function(){
+				var my = $(this), img = my.children().get(0);
+				self.commands.smiley.value = img.src;
+				self.exec('smiley');
+				my.parent().hide();				
+			});
+			
+			self.placeholder.find('input.image_control.file').change(self.handleImageInsert);			
 		};
 		
 		this.insertStandaloneImageControl = function(){
 			var cmd = self.commands.standaloneImage, 
 				str = "<div style='display:inline-block;width:auto;'>";
-			str    += "<img class='pointer command image_control' src='"+ cmd.icon +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
+			str    += "<img class='pointer command image_control hide_on_click' src='"+ cmd.icon +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
 			str    += "<input style='display:none;' class='image_control file' type='file' />";
 			str    += "</div>";
 			
@@ -109,10 +122,16 @@ var twig = (function twig(){
 		
 		this.insertSmileyControl = function(){
 			var cmd = self.commands.smiley, 
-				str = "<div style='display:inline-block;width:auto;'>";
-			str    += "<img class='pointer command image_control' src='"+ cmd.icon +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
-			str    += "</div>";
+				str = "<div style='display:inline-block;width:auto;'>",
+				smileyURI = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAACB0RVh0U29mdHdhcmUATWFjcm9tZWRpYSBGaXJld29ya3MgTVi7kSokAAAAFnRFWHRDcmVhdGlvbiBUaW1lADExLzA1LzA33bqJ2wAAAi9JREFUeJyVk8tLVHEUxz+/e2dGzWlCp2wxQykyiwQlw0JbhFJBEIEugqB90L5NLnr9A+3b1KZcxeiuxYTUoskQLc1ZJGXYSBk+ynnPvfecFlPqnaDHd3P48X2cc35wjKriw8KRHkzotmL3KXZc1UO9ShatTCOVm4HeT3O75cYXkDmaxNjDVJfB2wT1fhI2YsK4JoqqM95wbHnEH5C91kju2SLuWpzqR/4EhyiuNGVzbjzRNpAuWwBspcb+xQwQZB2bfDxsvR+rTZDpOw7yiuLMX827UXD2oyon7FtXWx/grHQiRR5OJrh+vx+Ano4Nn6GeMwgitFtqNXXhbQLwaDKxU8MnfQH1XMCq4IrpslQ19uu3Lw8t1uqFA9A84Auo54xRRCRm3Le9apdnd5TNA7Xu+RdQSPsXr+M2cnswzlx3NlDNxMDjf6Bq2MyHViy8fEZMeJtIzcaZSHf8ZphId3A32bP9rroWtnEzASE4KiZ6NqTfawGvY8wvRUm9SdB9OAvA/FIrH75E6O6sQuQcbD2hWDaIeKNGVanMHEpaWhwOsk6hHODe0/OkphzfBGf6G7hyqZ1me4XC58dUHRlvGZQRo6psTJ9ubNJ3izb5eMj6BqaBr84Qq4XaKgejQdqiQSgtUFx7TqlUyq6ua6LropZ9x1Scakuq6nDIyhOwKpjAXrAjqBqcSp5CIQd44y2DUndMu1B8ua9bhDsi2ueJxlUEY9ysQaYt492InJL53fofa8ocVmP9V6MAAAAASUVORK5CYII=';
+			str    += "<img class='pointer command smiley_control hide_on_click' src='"+ smileyURI +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
+			str    += "<div class='smiley_control list' style='display:none;'>";
 			
+			for(var i = 0; i < 15; i += 1){
+				str += "<div class='smiley'><img src='http://www.fgbuddyicons.com/images/icons/smileys/smileys01.gif' /></div>"
+			}
+			
+			str    += "</div></div>";
 			return str;
 		};
 		
@@ -128,6 +147,27 @@ var twig = (function twig(){
 				reader.readAsDataURL(input.files[0]);
 			}
 		};
+		
+		
+		//Code courtesy of http://stackoverflow.com/a/5420409/1177441 by 
+		//ThiefMaster - http://stackoverflow.com/users/298479/thiefmaster
+		this.getBase64Image = function (img) {
+			// Create an empty canvas element
+			var canvas = document.createElement("canvas");
+			canvas.width = img.width;
+			canvas.height = img.height;
+
+			// Copy the image contents to the canvas
+			var ctx = canvas.getContext("2d");
+			ctx.drawImage(img, 0, 0);
+
+			// Get the data-URL formatted image
+			// Firefox supports PNG and JPEG. You could check img.src to guess the
+			// original format, but be aware the using "image/jpg" will re-encode the image.
+			var dataURL = canvas.toDataURL("image/jpg");
+
+			return dataURL;
+		}
 		
 		this.init = function(){
 			self.generateControls(id);
