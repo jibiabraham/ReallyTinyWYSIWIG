@@ -2,6 +2,7 @@ To do
 
 1. Upload images
 	- Would have to use FileReaderApi. So restrict testing to HTML5 supported browsers only?
+        - Done
 2. Smilies
 	- Need a list of smilies. Ah well, grunt work
 3. Nickname selector
