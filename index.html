@@ -1,0 +1,20 @@
+<!doctype>
+<html>
+	<head>
+		<script type='text/javascript' src='js/jquery-1.7.2.min.js'></script>
+		<script type='text/javascript' src='js/twig.js'></script>
+		
+		<style>
+			#editor {height:300px;}
+		</style>
+	</head>
+	<body>
+		<div id='controls'></div>
+		<div id='editor' contentEditable='true'></div>
+		
+		<script type='text/javascript'>
+			var editor = new twig(document, 'controls');
+			editor.init();
+		</script>
+	</body>
+</html>
