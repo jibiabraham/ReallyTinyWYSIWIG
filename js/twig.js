@@ -26,6 +26,8 @@ var twig = (function twig(){
 			rightAlign:{name:'Right Align', cmd:'justifyright', ui:false, value:null, icon: "data:image/gif;base64,R0lGODlhFgAWAID/AMDAwAAAACH5BAEAAAAALAAAAAAWABYAQAIghI+py+0Po5y02ouz3jL4D4JQGDLkGYxouqzl43JyVgAAOw==" },
 			quote:{name:'Quote', cmd:'formatblock', ui:false, value:'blockquote', icon: "data:image/gif;base64,R0lGODlhFgAWAIQXAC1NqjFRjkBgmT9nqUJnsk9xrFJ7u2R9qmKBt1iGzHmOrm6Sz4OXw3Odz4Cl2ZSnw6KxyqO306K63bG70bTB0rDI3bvI4P///////////////////////////////////yH5BAEKAB8ALAAAAAAWABYAAAVP4CeOZGmeaKqubEs2CekkErvEI1zZuOgYFlakECEZFi0GgTGKEBATFmJAVXweVOoKEQgABB9IQDCmrLpjETrQQlhHjINrTq/b7/i8fp8PAQA7" },
 			link:{name:'Hyperlink', cmd:'createlink', ui:true, value:null, prompt: 'To what url should this link go', defaultValue: 'http://www.google.com/', icon: "data:image/gif;base64,R0lGODlhFgAWAOMKAB1ChDRLY19vj3mOrpGjuaezxrCztb/I19Ha7Pv8/f///////////////////////yH5BAEKAA8ALAAAAAAWABYAAARY8MlJq7046827/2BYIQVhHg9pEgVGIklyDEUBy/RlE4FQF4dCj2AQXAiJQDCWQCAEBwIioEMQBgSAFhDAGghGi9XgHAhMNoSZgJkJei33UESv2+/4vD4TAQA7" },
+			standaloneImage: {name:'Insert Image', cmd:'insertimage', ui:true, value:null, custom: true, icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAASCAYAAAC5DOVpAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH1wESDxIlPDPTOgAAAB10RVh0Q29tbWVudABDcmVhdGVkIHdpdGggVGhlIEdJTVDvZCVuAAABCElEQVR42q2UvW3DMBCFv2dphaQw4g1cuDRcaQRnIh0nygqsApUqtIEBF8kKMZiCCvRjiVGsXHOAgPv03iOPauoqA56AnMfrC/jMgWfgDdiugF2B1xzIgO3+cNw9SmrqCiAbWAsBIABa3KVufjP8R3rQOUOKAOdc+70rNXX1ArzvD8fdb8okYRYHzaITCZq6ugCnPym7r6Gy0XVIZ2TmsFZa7ErB0srKMlCWNqt4k1L2E/ZS67PKYtjRkmSE0IFDmAZOZtYHmRlmhmR471t4H5i4Z31QF3TsRVEA4L1H0t1pDmBjRcuAM7AxYGx1Cji7ASsW/QKccuAGXNvNX/ME3XLgAzj/x+P4DdCJjDzhNlZvAAAAAElFTkSuQmCC" },
+			smiley: {name:'Insert Smiley', cmd:'insertimage', ui:true, value:null, custom: true, icon: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAACB0RVh0U29mdHdhcmUATWFjcm9tZWRpYSBGaXJld29ya3MgTVi7kSokAAAAFnRFWHRDcmVhdGlvbiBUaW1lADExLzA1LzA33bqJ2wAAAi9JREFUeJyVk8tLVHEUxz+/e2dGzWlCp2wxQykyiwQlw0JbhFJBEIEugqB90L5NLnr9A+3b1KZcxeiuxYTUoskQLc1ZJGXYSBk+ynnPvfecFlPqnaDHd3P48X2cc35wjKriw8KRHkzotmL3KXZc1UO9ShatTCOVm4HeT3O75cYXkDmaxNjDVJfB2wT1fhI2YsK4JoqqM95wbHnEH5C91kju2SLuWpzqR/4EhyiuNGVzbjzRNpAuWwBspcb+xQwQZB2bfDxsvR+rTZDpOw7yiuLMX827UXD2oyon7FtXWx/grHQiRR5OJrh+vx+Ano4Nn6GeMwgitFtqNXXhbQLwaDKxU8MnfQH1XMCq4IrpslQ19uu3Lw8t1uqFA9A84Auo54xRRCRm3Le9apdnd5TNA7Xu+RdQSPsXr+M2cnswzlx3NlDNxMDjf6Bq2MyHViy8fEZMeJtIzcaZSHf8ZphId3A32bP9rroWtnEzASE4KiZ6NqTfawGvY8wvRUm9SdB9OAvA/FIrH75E6O6sQuQcbD2hWDaIeKNGVanMHEpaWhwOsk6hHODe0/OkphzfBGf6G7hyqZ1me4XC58dUHRlvGZQRo6psTJ9ubNJ3izb5eMj6BqaBr84Qq4XaKgejQdqiQSgtUFx7TqlUyq6ua6LropZ9x1Scakuq6nDIyhOwKpjAXrAjqBqcSp5CIQd44y2DUndMu1B8ua9bhDsi2ueJxlUEY9ysQaYt492InJL53fofa8ocVmP9V6MAAAAASUVORK5CYII=" }
 		};
 		
 		this.getSelection = function(){
@@ -55,7 +57,7 @@ var twig = (function twig(){
 			var command = self.commands[cmd] || null, value;
 			if (!command) return false;
 			
-			value = command.ui ? prompt(command.prompt, command.defaultValue): command.value;
+			value = command.ui && !command.custom ? prompt(command.prompt, command.defaultValue): command.value;
 			d.execCommand(command.cmd, command.ui, value)
 		};
 		
@@ -64,19 +66,72 @@ var twig = (function twig(){
 			if (!self.placeholder) return false;
 			
 			for (var cmd in self.commands){
-				str += '<img class="pointer command" data-cmd="'+ cmd + '" title="'+ self.commands[cmd].name +'" src="'+ self.commands[cmd].icon +'" />';
+				//It's better handle the exception seperately than to make this code more complex
+				if (self.commands[cmd].custom) { continue  }
+				str += '<img class="pointer command standard" data-cmd="'+ cmd + '" title="'+ self.commands[cmd].name +'" src="'+ self.commands[cmd].icon +'" />';
+				str += self.commands[cmd].hidden ? self.commands[cmd].hidden:'';
 			}
 			
-			self.placeholder.html(str);
+			//Handle the custom codes here
+			//1. Insert image control
+			str += self.insertStandaloneImageControl();
+			str += self.insertSmileyControl();
 			
-			self.placeholder.on('click', '.command', function(){
+			self.placeholder.html(str);
+		};
+		
+		this.eventRegistry = function(){
+			self.placeholder.on('click', '.command.standard', function(){
 				var my = $(this), cmd = my.data('cmd');
 				if (!self.isEmptySelection()) self.exec(cmd);
 			});
+			
+			//Image insert handlers
+			self.placeholder.on('click', '.command.image_control', function(){
+				var my = $(this), pos = my.position(), 
+					fileInput = my.siblings('input[type="file"]');
+				fileInput.show()
+					.css({position: 'absolute', top: pos.top + 25 + 'px', left: pos.left});
+			});
+			
+			self.placeholder.find('input.image_control.file').change(self.handleImageInsert);
+		};
+		
+		this.insertStandaloneImageControl = function(){
+			var cmd = self.commands.standaloneImage, 
+				str = "<div style='display:inline-block;width:auto;'>";
+			str    += "<img class='pointer command image_control' src='"+ cmd.icon +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
+			str    += "<input style='display:none;' class='image_control file' type='file' />";
+			str    += "</div>";
+			
+			return str;
+		};
+		
+		this.insertSmileyControl = function(){
+			var cmd = self.commands.smiley, 
+				str = "<div style='display:inline-block;width:auto;'>";
+			str    += "<img class='pointer command image_control' src='"+ cmd.icon +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
+			str    += "</div>";
+			
+			return str;
+		};
+		
+		this.handleImageInsert = function(e){
+			var input = e.currentTarget;
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(ev){
+					self.commands.standaloneImage.value = ev.target.result;
+					self.exec('standaloneImage');
+					$(input).hide();
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
 		};
 		
 		this.init = function(){
 			self.generateControls(id);
+			self.eventRegistry();
 		};
 	}
 	return twig;
