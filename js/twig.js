@@ -87,17 +87,24 @@ var twig = (function twig(){
 			});
 			
 			//Image insert handlers
-			self.placeholder.on('click', '.command.image_control', function(){
-				var my = $(this), pos = my.position(), 
-					fileInput = my.siblings('input[type="file"]');
+			self.placeholder.on('mouseover', '.sa_img_container', function(){
+				var my = $(this).find('.command.image_control'), pos = my.position(), 
+					fileInput = my.siblings('div.file_container');
 				fileInput.show()
-					.css({position: 'absolute', top: pos.top + 25 + 'px', left: pos.left});
+					.css({position:'absolute', top: pos.top + 17 + 'px', left: pos.left});
+			}).on('mouseout', '.sa_img_container', function(){
+				var my = $(this).find('.command.image_control'), pos = my.position(), 
+					fileInput = my.siblings('div.file_container');
+				fileInput.hide();
 			});	
 			
 			//Smiley insert handler
-			self.placeholder.on('click', '.command.smiley_control', function(){
-				var my = $(this);
+			self.placeholder.on('mouseover', '.sm_list_container', function(){
+				var my = $(this).find('.command.smiley_control');
 				my.siblings('.list').show();				
+			}).on('mouseout', '.sm_list_container', function(){
+				var my = $(this).find('.command.smiley_control');
+				my.siblings('.list').hide();				
 			});
 			
 			self.placeholder.on('click', '.smiley', function(){
@@ -112,9 +119,9 @@ var twig = (function twig(){
 		
 		this.insertStandaloneImageControl = function(){
 			var cmd = self.commands.standaloneImage, 
-				str = "<div style='display:inline-block;width:auto;'>";
-			str    += "<img class='pointer command image_control hide_on_click' src='"+ cmd.icon +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
-			str    += "<input style='display:none;' class='image_control file' type='file' />";
+				str = "<div class='sa_img_container' style='display:inline-block;width:auto;'>";
+			str    += "<img class='pointer command image_control' src='"+ cmd.icon +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
+			str    += "<div class='file_container' style='display:none;'><input class='image_control file' type='file' /></div>";
 			str    += "</div>";
 			
 			return str;
@@ -122,7 +129,7 @@ var twig = (function twig(){
 		
 		this.insertSmileyControl = function(){
 			var cmd = self.commands.smiley, 
-				str = "<div style='display:inline-block;width:auto;'>",
+				str = "<div class='sm_list_container'>",
 				smileyURI = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAACB0RVh0U29mdHdhcmUATWFjcm9tZWRpYSBGaXJld29ya3MgTVi7kSokAAAAFnRFWHRDcmVhdGlvbiBUaW1lADExLzA1LzA33bqJ2wAAAi9JREFUeJyVk8tLVHEUxz+/e2dGzWlCp2wxQykyiwQlw0JbhFJBEIEugqB90L5NLnr9A+3b1KZcxeiuxYTUoskQLc1ZJGXYSBk+ynnPvfecFlPqnaDHd3P48X2cc35wjKriw8KRHkzotmL3KXZc1UO9ShatTCOVm4HeT3O75cYXkDmaxNjDVJfB2wT1fhI2YsK4JoqqM95wbHnEH5C91kju2SLuWpzqR/4EhyiuNGVzbjzRNpAuWwBspcb+xQwQZB2bfDxsvR+rTZDpOw7yiuLMX827UXD2oyon7FtXWx/grHQiRR5OJrh+vx+Ano4Nn6GeMwgitFtqNXXhbQLwaDKxU8MnfQH1XMCq4IrpslQ19uu3Lw8t1uqFA9A84Auo54xRRCRm3Le9apdnd5TNA7Xu+RdQSPsXr+M2cnswzlx3NlDNxMDjf6Bq2MyHViy8fEZMeJtIzcaZSHf8ZphId3A32bP9rroWtnEzASE4KiZ6NqTfawGvY8wvRUm9SdB9OAvA/FIrH75E6O6sQuQcbD2hWDaIeKNGVanMHEpaWhwOsk6hHODe0/OkphzfBGf6G7hyqZ1me4XC58dUHRlvGZQRo6psTJ9ubNJ3izb5eMj6BqaBr84Qq4XaKgejQdqiQSgtUFx7TqlUyq6ua6LropZ9x1Scakuq6nDIyhOwKpjAXrAjqBqcSp5CIQd44y2DUndMu1B8ua9bhDsi2ueJxlUEY9ysQaYt492InJL53fofa8ocVmP9V6MAAAAASUVORK5CYII=';
 			str    += "<img class='pointer command smiley_control hide_on_click' src='"+ smileyURI +"' data-cmd='"+ cmd.cmd +"'  title='"+ cmd.name +"' />";
 			str    += "<div class='smiley_control list' style='display:none;'>";
@@ -142,7 +149,7 @@ var twig = (function twig(){
 				reader.onload = function(ev){
 					self.commands.standaloneImage.value = ev.target.result;
 					self.exec('standaloneImage');
-					$(input).hide();
+					$(input).parent().hide();
 				};
 				reader.readAsDataURL(input.files[0]);
 			}
