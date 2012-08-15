@@ -51,9 +51,8 @@ var twig = (function twig(){
 			return null;
 		};
 		
-		this.setSelection = function(){
-			self.getSelection().removeAllRanges();
-			self.getSelection().addRange(self.selection);
+		this.setSelection = function(start, end){
+			
 		};
 		
 		this.isEmptySelection = function(){
@@ -134,6 +133,7 @@ var twig = (function twig(){
 				if (e.which === 32){ /* Space */
 					self.enableSearch = false;
 					self.selectionStore = null;
+					$('#nickname_results').remove();
 				}
 				
 				setTimeout(self.performSearch, 150);
@@ -208,11 +208,32 @@ var twig = (function twig(){
 			//and start matching from next character
 			var atStart = self.selectionStore.startOffset, 
 				currentPos = self.getSelection().startOffset,
-				searchString;
+				searchString, results = [];
 				
 			atStart += atStart === 0 ? 1:2;
 			searchString = self.editor.text().substr(atStart, currentPos);
-			console.log(atStart, currentPos, searchString);
+			self.nameList.forEach(function(d){ 
+				if (d.match(searchString))
+					results.push(d);
+			});
+			self.showSearchResults(results);
+			console.log(atStart, currentPos, searchString, results);
+		};
+		
+		this.showSearchResults = function(results){
+			var str = "<div id='nickname_results'>", pos = self.getCursorPosition();
+			str += results.reduce(function(a, b){
+				return a += '<div class="nickname">'+ b +'</div>';
+			}, '');
+			str += '</div>';
+			$('#nickname_results').remove();
+			$(str).appendTo('body').css({left:pos.left + 'px', top:pos.top + 10 + 'px'});
+		};
+		
+		this.getCursorPosition = function(){
+			var sel = self.getSelection(), savedSelection = self.selectionStore || sel;
+			sel.setStart(savedSelection.startContainer, savedSelection.startOffset);
+			return sel.getBoundingClientRect();
 		};
 		
 		this.init = function(){
