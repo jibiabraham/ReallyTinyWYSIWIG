@@ -17,7 +17,7 @@ var twig = (function twig(){
 		this.placeholder = $('#' + controlsId);
 		this.editor = $('#' + editorId);
 		this.enableSearch = false;
-		this.selectionStore = null;
+		this.selectionStore = {start:null, end:null};
 		this.commands = {
 			undo:{name:'Undo', cmd:'undo', ui:false, value:null, icon: "data:image/gif;base64,R0lGODlhFgAWAOMKADljwliE33mOrpGjuYKl8aezxqPD+7/I19DV3NHa7P///////////////////////yH5BAEKAA8ALAAAAAAWABYAAARR8MlJq7046807TkaYeJJBnES4EeUJvIGapWYAC0CsocQ7SDlWJkAkCA6ToMYWIARGQF3mRQVIEjkkSVLIbSfEwhdRIH4fh/DZMICe3/C4nBQBADs="},
 			redo:{name:'Redo', cmd:'redo', ui:false, value:null, icon: "data:image/gif;base64,R0lGODlhFgAWAMIHAB1ChDljwl9vj1iE34Kl8aPD+7/I1////yH5BAEKAAcALAAAAAAWABYAAANKeLrc/jDKSesyphi7SiEgsVXZEATDICqBVJjpqWZt9NaEDNbQK1wCQsxlYnxMAImhyDoFAElJasRRvAZVRqqQXUy7Cgx4TC6bswkAOw==" },
@@ -126,17 +126,24 @@ var twig = (function twig(){
 			//Handlers for the '@' search
 			self.editor.keypress(function(e){
 				if(e.which === 64 && e.shiftKey){ /* => @ */
-					console.log(e, self.getSelection());
 					self.enableSearch = true;
-					self.selectionStore = self.getSelection();
+					self.selectionStore.start = self.getSelection();
+					self.selectionStore.end = self.getSelection();
 				}
 				if (e.which === 32){ /* Space */
 					self.enableSearch = false;
-					self.selectionStore = null;
+					self.selectionStore = {};
 					$('#nickname_results').remove();
 				}
-				
 				setTimeout(self.performSearch, 150);
+			});
+			
+			$(document).on('click', '.nickname', function(e){
+				e.preventDefault();
+				var my = $(this);
+				self.editor.focus();
+				self.replaceSelection(my.text());
+				$('#nickname_results').remove();
 			});
 		};
 		
@@ -203,21 +210,20 @@ var twig = (function twig(){
 		this.performSearch = function(){
 			//Check whether search is required
 			if (!self.enableSearch){ return false; }
+			self.selectionStore.end = self.getSelection();
 			
 			//Get the position of the cursor where '@' was used
 			//and start matching from next character
-			var atStart = self.selectionStore.startOffset, 
-				currentPos = self.getSelection().startOffset,
+			var atStart = self.selectionStore.start.startOffset, 
+				currentPos = self.selectionStore.end.endOffset,
 				searchString, results = [];
-				
 			atStart += atStart === 0 ? 1:2;
-			searchString = self.editor.text().substr(atStart, currentPos);
+			searchString = self.editor.text().substring(atStart, currentPos);
 			self.nameList.forEach(function(d){ 
 				if (d.match(searchString))
 					results.push(d);
 			});
 			self.showSearchResults(results);
-			console.log(atStart, currentPos, searchString, results);
 		};
 		
 		this.showSearchResults = function(results){
@@ -230,11 +236,50 @@ var twig = (function twig(){
 			$(str).appendTo('body').css({left:pos.left + 'px', top:pos.top + 10 + 'px'});
 		};
 		
-		this.getCursorPosition = function(){
-			var sel = self.getSelection(), savedSelection = self.selectionStore || sel;
+		
+		this.setCursorRangeToSavedSelection = function(){
+			var sel = self.selectionStore.end, savedSelection = self.selectionStore.start;
 			sel.setStart(savedSelection.startContainer, savedSelection.startOffset);
-			return sel.getBoundingClientRect();
+			return sel;
 		};
+		
+		this.getCursorPosition = function(){
+			return self.setCursorRangeToSavedSelection().getBoundingClientRect();
+		};
+		
+		
+		//Courtesy -> http://stackoverflow.com/questions/5393922/javascript-replace-selection-all-browsers
+		this.replaceSelection = function(html) {
+			var sel, range, node;
+			html = ' ' + html;
+			if (typeof window.getSelection != "undefined") {
+				// IE 9 and other non-IE browsers
+				range = self.setCursorRangeToSavedSelection();		
+				range.deleteContents();
+
+				// Create a DocumentFragment to insert and populate it with HTML
+				// Need to test for the existence of range.createContextualFragment
+				// because it's non-standard and IE 9 does not support it
+				if (range.createContextualFragment) {
+					node = range.createContextualFragment(html);
+				} else {
+					// In IE 9 we need to use innerHTML of a temporary element
+					var div = document.createElement("div"), child;
+					div.innerHTML = html;
+					node = document.createDocumentFragment();
+					while ( (child = div.firstChild) ) {
+						node.appendChild(child);
+					}
+				}
+				range.insertNode(node);
+				window.getSelection().removeAllRanges();
+				window.getSelection().addRange(range);
+			} else if (document.selection && document.selection.type != "Control") {
+				// IE 8 and below
+				range = document.selection.createRange();
+				range.pasteHTML(html);
+			}
+		}
 		
 		this.init = function(){
 			self.generateControls(controlsId);
