@@ -233,7 +233,7 @@ var twig = (function twig(){
 			}, '');
 			str += '</div>';
 			$('#nickname_results').remove();
-			$(str).appendTo('body').css({left:pos.left + 'px', top:pos.top + 10 + 'px'});
+			$(str).appendTo('body').css({left:pos.left + 'px', top:pos.top + 20 + 'px'});
 		};
 		
 		

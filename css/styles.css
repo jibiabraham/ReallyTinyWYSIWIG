@@ -45,3 +45,5 @@ abbr,acronym { border:0;
 .smiley img{max-width:16px;}
 .pointer {cursor:pointer;}
 #nickname_results {position:absolute;}
+.nickname { padding:5px;border:1px solid #ccc;background:#ebebeb; }
+.nickname:hover { background:#D9EFFF; }
