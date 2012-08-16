@@ -90,7 +90,7 @@ var twig = (function twig(){
 				var my = $(this).find('.command.image_control'), pos = my.position(), 
 					fileInput = my.siblings('div.file_container');
 				fileInput.show()
-					.css({position:'absolute', top: pos.top + 17 + 'px', left: pos.left});
+					.css({position:'absolute', top: pos.top + 21 + 'px', left: pos.left});
 			}).on('mouseout', '.sa_img_container', function(){
 				var my = $(this).find('.command.image_control'), pos = my.position(), 
 					fileInput = my.siblings('div.file_container');

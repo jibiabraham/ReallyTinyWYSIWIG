@@ -1,0 +1,47 @@
+/* YUI - Reset CSS */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+	margin:0;
+	padding:0;
+}
+table {
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img { 
+	border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+	font-style:normal;
+	font-weight:normal;
+}
+ol,ul {
+	list-style:none;
+}
+caption,th {
+	text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+	font-size:100%;
+	font-weight:normal;
+}
+q:before,q:after {
+	content:'';
+}
+abbr,acronym { border:0;
+}
+
+#container { width:80%; margin:0 auto; }
+.heading { font-family: 'Pontano Sans', sans-serif;font-weight:100;font-size:40px;color:#4B8DB5;margin:25px 0;  }
+#editor {min-height:300px;clear:left;border: 1px solid #ccc;}
+#controls { border: 1px solid #ccc;overflow:auto; }
+#controls > * { float:left;padding: 2px 5px;border: 1px solid #ccc; }
+#controls > img:hover, #controls > div:hover { background:#ebebeb; }
+.file_container {padding-top:5px;position:absolute;}
+.sm_list_container {display:inline-block;width:auto;}
+.sa_img_container { padding:4px !important; }
+.sm_list_container{ padding:5px !important; }
+.smiley_control.list { width:100px;position:fixed;}
+.smiley {float:left;padding:2px;}
+.smiley img{max-width:16px;}
+.pointer {cursor:pointer;}
+#nickname_results {position:absolute;}
