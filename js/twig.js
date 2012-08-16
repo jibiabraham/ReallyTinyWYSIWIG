@@ -139,6 +139,14 @@ var twig = (function twig(){
 			});
 		};
 		
+		
+		//A rather sneaky way of trying to find if the string can
+		//be parsed into html. SHould look into fringe cases
+		this.isHTMLString = function(str){
+			try { return $(str).length !== 0 }
+			catch(ex) {return false}
+		};
+		
 		this.insertStandaloneImageControl = function(){
 			var cmd = self.commands.standaloneImage, 
 				str = "<div class='sa_img_container' style='display:inline-block;width:auto;'>";
